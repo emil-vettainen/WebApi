@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34616.47
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi", "WebApi\WebApi.csproj", "{59B3DB48-F397-40BA-AE9C-D69F6623AE10}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{627657FA-29C5-481D-A588-AF4BA087A640}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Business", "Business\Business.csproj", "{55CFDD7E-8D1C-47B4-B39E-4D8E262C19EA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{59B3DB48-F397-40BA-AE9C-D69F6623AE10}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59B3DB48-F397-40BA-AE9C-D69F6623AE10}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59B3DB48-F397-40BA-AE9C-D69F6623AE10}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59B3DB48-F397-40BA-AE9C-D69F6623AE10}.Release|Any CPU.Build.0 = Release|Any CPU
+		{627657FA-29C5-481D-A588-AF4BA087A640}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{627657FA-29C5-481D-A588-AF4BA087A640}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{627657FA-29C5-481D-A588-AF4BA087A640}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{627657FA-29C5-481D-A588-AF4BA087A640}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55CFDD7E-8D1C-47B4-B39E-4D8E262C19EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55CFDD7E-8D1C-47B4-B39E-4D8E262C19EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55CFDD7E-8D1C-47B4-B39E-4D8E262C19EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55CFDD7E-8D1C-47B4-B39E-4D8E262C19EA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6A756CEC-A717-495C-924F-0280FDAEA478}
+	EndGlobalSection
+EndGlobal

@@ -7,16 +7,17 @@ namespace WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SubscribeController : ControllerBase
+    public class SubscribersController : ControllerBase
     {
         private readonly SubscribeService _subscribeService;
 
-        public SubscribeController(SubscribeService subscribeService)
+        public SubscribersController(SubscribeService subscribeService)
         {
             _subscribeService = subscribeService;
         }
 
         [HttpPost]
+
         public async Task<IActionResult> Subscribe (CreateSubscribeDto dto)
         {
             try
@@ -47,7 +48,12 @@ namespace WebApi.Controllers
             try
             {
                 var result = await _subscribeService.GetAsync();
-                return result.Any() ? Ok(result) : NotFound();
+                return result.StatusCode switch
+                {
+                    ResultStatus.OK => Ok(result.ContentResult),
+                    ResultStatus.NOT_FOUND => NotFound(),
+                    _ => BadRequest()
+                }; 
 
             }
             catch (Exception)
@@ -65,7 +71,7 @@ namespace WebApi.Controllers
                 var result = await _subscribeService.GetAsync(id);
                 return result.StatusCode switch
                 {
-                    ResultStatus.OK => Ok(result),
+                    ResultStatus.OK => Ok(result.ContentResult),
                     ResultStatus.NOT_FOUND => NotFound(),
                     _ => BadRequest()
                 };
@@ -89,16 +95,18 @@ namespace WebApi.Controllers
                 }
 
                 var result = await _subscribeService.UpdateAsync(id, dto);
-                return result != null ? Ok(result) : NotFound();
-
-
+                return result.StatusCode switch
+                {
+                    ResultStatus.OK => Ok(result.ContentResult),
+                    ResultStatus.NOT_FOUND => NotFound(),
+                    _ => BadRequest()
+                };
             }
             catch (Exception)
             {
                 //logger
                 return BadRequest("An unexpected error occurred. Please try again!");
             }
-
         }
 
         [HttpDelete("{id}")]

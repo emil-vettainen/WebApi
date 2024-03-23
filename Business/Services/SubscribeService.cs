@@ -16,7 +16,6 @@ public class SubscribeService
 
     }
 
-
     public async Task<ResponseResult> CreateAsync(CreateSubscribeDto dto)
     {
         try
@@ -36,20 +35,19 @@ public class SubscribeService
     }
 
 
-    public async Task<IEnumerable<GetSubscribeDto>> GetAsync()
+    public async Task<ResponseResult> GetAsync()
     {
         try
         {
             var subscribers = await _subsribeRepository.GetAllAsync();
-            return subscribers.Select(subscriber => SubscribeFactory.ToDto(subscriber)).ToList();
+            return subscribers.Any() ? ResponseFactory.Ok(subscribers.Select(subscriber => SubscribeFactory.ToDto(subscriber)).ToList()) : ResponseFactory.NotFound();
         }
         catch (Exception)
         {
             //logger
-            return [];
+            return ResponseFactory.Error();
         }
     }
-
 
 
     public async Task<ResponseResult> GetAsync(string id)
@@ -67,17 +65,17 @@ public class SubscribeService
     }
 
 
-    public async Task<GetSubscribeDto> UpdateAsync(string id, CreateSubscribeDto dto)
+    public async Task<ResponseResult> UpdateAsync(string id, CreateSubscribeDto dto)
     {
         try
         {
             var result = await _subsribeRepository.UpdateAsync(x => x.Id == id, SubscribeFactory.FromDto(id, dto));
-            return result != null ? SubscribeFactory.ToDto(result) : null!;
+            return result != null ? ResponseFactory.Ok(SubscribeFactory.ToDto(result)) : ResponseFactory.NotFound();
         }
         catch (Exception)
         {
             //logger
-            return null!;
+            return ResponseFactory.Error();
         }
     }
 

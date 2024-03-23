@@ -40,13 +40,13 @@ public abstract class BaseRepository <TEntity, TContext> where TEntity : class w
         try
         {
             var entities = await _context.Set<TEntity>().ToListAsync();
-            if (entities.Count != 0)
-            {
-                return entities;
-            }
+            return entities;
         }
-        catch (Exception) {  }
-        return null!;
+        catch (Exception) 
+        {
+            return Enumerable.Empty<TEntity>();
+        }
+        
     }
 
     public virtual async Task<TEntity> GetOneAsync(Expression<Func<TEntity, bool>> predicate)

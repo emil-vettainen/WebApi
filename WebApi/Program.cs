@@ -5,14 +5,14 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
-
-
 
 builder.Services.AddDbContext<DataContext>(x => x.UseSqlServer(builder.Configuration.GetConnectionString("SQLServer")));
-builder.Services.AddScoped<SubscribeService>();
 builder.Services.AddScoped<SubscribeRepository>();
+builder.Services.AddScoped<SubscribeService>();
+
+
+
+
 
 
 builder.Services.AddControllers();

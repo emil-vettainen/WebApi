@@ -17,7 +17,6 @@ namespace WebApi.Controllers
         }
 
         [HttpPost]
-
         public async Task<IActionResult> Subscribe (CreateSubscribeDto dto)
         {
             try
@@ -54,7 +53,6 @@ namespace WebApi.Controllers
                     ResultStatus.NOT_FOUND => NotFound(),
                     _ => BadRequest()
                 }; 
-
             }
             catch (Exception)
             {
@@ -82,7 +80,6 @@ namespace WebApi.Controllers
                 return BadRequest("An unexpected error occurred. Please try again!");
             }
         }
-
 
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateSubcriber(string id, CreateSubscribeDto dto)
@@ -125,10 +122,9 @@ namespace WebApi.Controllers
             }
             catch (Exception)
             {
-
+                //logger
                 return BadRequest("An unexpected error occurred. Please try again!");
             }
-
         }
     }
 }

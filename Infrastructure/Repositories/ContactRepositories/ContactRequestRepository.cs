@@ -1,7 +1,7 @@
 ﻿using Infrastructure.Contexts;
 using Infrastructure.Entities.ContactFormsEntities;
 
-namespace Infrastructure.Repositories.SqlRepositories.ContactRepository;
+namespace Infrastructure.Repositories.ContactRepositories;
 
 public class ContactRequestRepository : BaseRepository<ContactRequestEntity, DataContext>
 {

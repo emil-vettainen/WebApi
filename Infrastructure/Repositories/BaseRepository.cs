@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
-namespace Infrastructure.Repositories.SqlRepositories;
+namespace Infrastructure.Repositories;
 
-public abstract class BaseRepository <TEntity, TContext> where TEntity : class where TContext : DbContext
+public abstract class BaseRepository<TEntity, TContext> where TEntity : class where TContext : DbContext
 {
     private readonly TContext _context;
 
@@ -19,7 +19,7 @@ public abstract class BaseRepository <TEntity, TContext> where TEntity : class w
             var entityExists = await _context.Set<TEntity>().AnyAsync(predicate);
             return entityExists;
         }
-        catch (Exception) {  }
+        catch (Exception) { }
         return false;
     }
 
@@ -31,7 +31,7 @@ public abstract class BaseRepository <TEntity, TContext> where TEntity : class w
             await _context.SaveChangesAsync();
             return entity;
         }
-        catch (Exception) {  }
+        catch (Exception) { }
         return null!;
     }
 
@@ -42,11 +42,11 @@ public abstract class BaseRepository <TEntity, TContext> where TEntity : class w
             var entities = await _context.Set<TEntity>().ToListAsync();
             return entities;
         }
-        catch (Exception) 
+        catch (Exception)
         {
             return Enumerable.Empty<TEntity>();
         }
-        
+
     }
 
     public virtual async Task<TEntity> GetOneAsync(Expression<Func<TEntity, bool>> predicate)
@@ -59,7 +59,7 @@ public abstract class BaseRepository <TEntity, TContext> where TEntity : class w
                 return entity;
             }
         }
-        catch (Exception) {  }
+        catch (Exception) { }
         return null!;
     }
 
@@ -75,7 +75,7 @@ public abstract class BaseRepository <TEntity, TContext> where TEntity : class w
                 return entity;
             }
         }
-        catch (Exception) {  }
+        catch (Exception) { }
         return null!;
     }
 
@@ -91,7 +91,7 @@ public abstract class BaseRepository <TEntity, TContext> where TEntity : class w
                 return true;
             }
         }
-        catch (Exception) {  }
+        catch (Exception) { }
         return false;
     }
 }

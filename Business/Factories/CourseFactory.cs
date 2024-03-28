@@ -10,7 +10,9 @@ public class CourseFactory
         return new CourseEntity
         {
             CourseTitle = dto.CourseTitle,
+            CourseIngress = dto.CourseIngress,
             CourseDescription = dto.CourseDescription,
+            CourseImageUrl = dto.CourseImageUrl,
             IsBestseller = dto.IsBestseller,
             Rating = new RatingEntity
             {
@@ -44,7 +46,7 @@ public class CourseFactory
                     Followers = dto.Author.SocialMedia.Followers,
                 }
             },
-            Content = dto.Content.Select(x => new ContentEntity
+            Content = dto.Content.Select(x => new ProgramDetailsEntity
             {
                 Title = x.Title,
                 Description = x.Description,
@@ -59,7 +61,9 @@ public class CourseFactory
         {
             Id = id,
             CourseTitle = dto.CourseTitle,
+            CourseIngress = dto.CourseIngress,
             CourseDescription = dto.CourseDescription,
+            CourseImageUrl = dto.CourseImageUrl,
             IsBestseller = dto.IsBestseller,
             Rating = new RatingEntity
             {
@@ -93,7 +97,7 @@ public class CourseFactory
                     Followers = dto.Author.SocialMedia.Followers,
                 }
             },
-            Content = dto.Content.Select(x => new ContentEntity
+            Content = dto.Content.Select(x => new ProgramDetailsEntity
             {
                 Title = x.Title,
                 Description = x.Description,
@@ -110,7 +114,9 @@ public class CourseFactory
             {
                 Id = entity.Id,
                 CourseTitle = entity.CourseTitle,
+                CourseIngress = entity.CourseIngress,
                 CourseDescription = entity.CourseDescription,
+                CourseImageUrl = entity.CourseImageUrl,
                 IsBestseller = entity.IsBestseller,
                 Rating = new RatingDto
                 {
@@ -138,13 +144,13 @@ public class CourseFactory
 
                     SocialMedia = new SocialMediaDto
                     {
-                        YouTubeUrl = entity.Author.SocialMedia.YouTubeUrl,
-                        Subscribers = entity.Author.SocialMedia.Subscribers,
-                        FacebookUrl = entity.Author.SocialMedia.FacebookUrl,
-                        Followers = entity.Author.SocialMedia.Followers,
+                        YouTubeUrl = entity.Author.SocialMedia!.YouTubeUrl!,
+                        Subscribers = entity.Author.SocialMedia!.Subscribers!,
+                        FacebookUrl = entity.Author.SocialMedia!.FacebookUrl!,
+                        Followers = entity.Author.SocialMedia!.Followers!,
                     }
                 },
-                Content = entity.Content.Select(x => new ContentDto
+                Content = entity.Content.Select(x => new ProgramDetailsDto
                 {
                     Title = x.Title,
                     Description = x.Description,

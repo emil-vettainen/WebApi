@@ -28,5 +28,19 @@ namespace Infrastructure.Repositories.CoursesRepositories
                 return false;
             }
         }
+
+        //public async Task<CourseEntity> CategoryAsync(string category)
+        //{
+        //    try
+        //    {
+        //        var courses = _context.Courses.Where(course => course.)
+
+        //    }
+        //    catch (Exception)
+        //    {
+
+        //        throw;
+        //    }
+        //}
     }
 }

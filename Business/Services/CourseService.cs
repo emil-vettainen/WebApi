@@ -47,6 +47,19 @@ namespace Business.Services
             }
         }
 
+        public async Task<ResponseResult> GetByCategoryAsync(string category)
+        {
+            try
+            {
+                return ResponseFactory.Ok();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
         public async Task<ResponseResult> GetOneAsync(string id)
         {
             try

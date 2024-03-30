@@ -14,6 +14,8 @@ public class CourseFactory
             CourseDescription = dto.CourseDescription,
             CourseImageUrl = dto.CourseImageUrl,
             IsBestseller = dto.IsBestseller,
+            Category = dto.Category,
+
             Rating = new RatingEntity
             {
                 InNumbers = dto.Rating.InNumbers,
@@ -65,6 +67,8 @@ public class CourseFactory
             CourseDescription = dto.CourseDescription,
             CourseImageUrl = dto.CourseImageUrl,
             IsBestseller = dto.IsBestseller,
+            Category = dto.Category,
+
             Rating = new RatingEntity
             {
                 InNumbers = dto.Rating.InNumbers,
@@ -118,6 +122,7 @@ public class CourseFactory
                 CourseDescription = entity.CourseDescription,
                 CourseImageUrl = entity.CourseImageUrl,
                 IsBestseller = entity.IsBestseller,
+                Category = entity.Category,
                 Rating = new RatingDto
                 {
                     InNumbers = entity.Rating.InNumbers,

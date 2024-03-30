@@ -51,12 +51,14 @@ namespace Business.Services
         {
             try
             {
-                return ResponseFactory.Ok();
+                var coursesByCategory = await _courseRepository.CategoryAsync(category);
+                return coursesByCategory.Any() ? ResponseFactory.Ok(coursesByCategory.Select(course => CourseFactory.ToDto(course)).ToList()) : ResponseFactory.NotFound();
+                
             }
             catch (Exception)
             {
-
-                throw;
+                //logger
+                return ResponseFactory.Error();
             }
         }
 

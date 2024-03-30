@@ -1,4 +1,6 @@
-﻿namespace Business.Dtos.CoursesDtos
+﻿using Infrastructure.Entities.CoursesEntities;
+
+namespace Business.Dtos.CoursesDtos
 {
     public class GetCourseDto
     {
@@ -8,6 +10,7 @@
         public string CourseDescription { get; set; } = null!;
         public string? CourseImageUrl { get; set; }
         public bool IsBestseller { get; set; } = false;
+        public string? Category { get; set; }
         public RatingDto Rating { get; set; } = null!;
         public PriceDto Price { get; set; } = null!;
         public IncludedDto Included { get; set; } = null!;

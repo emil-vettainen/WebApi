@@ -29,18 +29,19 @@ namespace Infrastructure.Repositories.CoursesRepositories
             }
         }
 
-        //public async Task<CourseEntity> CategoryAsync(string category)
-        //{
-        //    try
-        //    {
-        //        var courses = _context.Courses.Where(course => course.)
+        public async Task<IEnumerable<CourseEntity>> CategoryAsync(string category)
+        {
+            try
+            {
+                var courses = await _context.Courses.Where(x => x.Category == category).ToListAsync();
+                return courses;
 
-        //    }
-        //    catch (Exception)
-        //    {
-
-        //        throw;
-        //    }
-        //}
+            }
+            catch (Exception)
+            {
+                //logger
+                return [];
+            }
+        }
     }
 }

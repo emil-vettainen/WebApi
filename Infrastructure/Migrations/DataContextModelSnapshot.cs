@@ -22,7 +22,7 @@ namespace Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Infrastructure.Entities.ContactFormsEntities.ContacatFormEntity", b =>
+            modelBuilder.Entity("Infrastructure.Entities.ContactFormsEntities.ContactRequestEntity", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -42,31 +42,15 @@ namespace Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ServiceId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ServiceId");
-
-                    b.ToTable("ContactRequests", (string)null);
-                });
-
-            modelBuilder.Entity("Infrastructure.Entities.ContactFormsEntities.ServiceEntity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("ServiceName")
-                        .IsRequired()
+                    b.Property<string>("Service")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("Updated")
+                        .HasColumnType("datetime2");
+
                     b.HasKey("Id");
 
-                    b.ToTable("Services", (string)null);
+                    b.ToTable("ContactRequests");
                 });
 
             modelBuilder.Entity("Infrastructure.Entities.SubscribersEntities.SubscribeEntity", b =>
@@ -98,21 +82,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Subscribers", (string)null);
-                });
-
-            modelBuilder.Entity("Infrastructure.Entities.ContactFormsEntities.ContacatFormEntity", b =>
-                {
-                    b.HasOne("Infrastructure.Entities.ContactFormsEntities.ServiceEntity", "Service")
-                        .WithMany("ContactRequests")
-                        .HasForeignKey("ServiceId");
-
-                    b.Navigation("Service");
-                });
-
-            modelBuilder.Entity("Infrastructure.Entities.ContactFormsEntities.ServiceEntity", b =>
-                {
-                    b.Navigation("ContactRequests");
+                    b.ToTable("Subscribers");
                 });
 #pragma warning restore 612, 618
         }

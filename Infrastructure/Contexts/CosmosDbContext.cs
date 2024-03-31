@@ -14,6 +14,9 @@ public class CosmosDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<CourseEntity>().ToContainer("Courses").HasPartitionKey(x => x.Id);
+        modelBuilder.Entity<CourseEntity>()
+            .ToContainer("Courses")
+            .HasPartitionKey(x => x.Id)
+            .OwnsMany(x => x.CourseCategory);
     }
 }

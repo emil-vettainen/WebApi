@@ -1,6 +1,9 @@
 ﻿using Infrastructure.Contexts;
 using Infrastructure.Entities.CoursesEntities;
+using Microsoft.Azure.Cosmos;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel;
+using System.Linq;
 using System.Linq.Expressions;
 
 namespace Infrastructure.Repositories.CoursesRepositories
@@ -33,9 +36,11 @@ namespace Infrastructure.Repositories.CoursesRepositories
         {
             try
             {
-                var courses = await _context.Courses.Where(x => x.Category == category).ToListAsync();
+                var courses = await _context.Courses.FromSql($"SELECT * FROM c JOIN cat IN c.CourseCategory WHERE cat.Name = {category}").ToListAsync();
                 return courses;
 
+
+               
             }
             catch (Exception)
             {

@@ -13,12 +13,14 @@ public class ContactRequestEntity
     [Required]
     public string Email { get; set; } = null!;
 
-    public int? ServiceId { get; set; }
-    public ServiceEntity? Service { get; set; }
+    public string? Service { get; set; }
 
     [Required]
     public string Message { get; set; } = null!;
 
     [Column(TypeName = "datetime2")]
-    public DateTime Created { get; set; } = DateTime.Now;
+    public DateTime Created { get; set; }
+
+    [Column(TypeName = "datetime2")]
+    public DateTime Updated { get; set; }
 }

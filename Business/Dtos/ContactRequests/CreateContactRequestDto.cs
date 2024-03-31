@@ -1,5 +1,4 @@
-﻿using Infrastructure.Entities.ContactFormsEntities;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Business.Dtos.ContactRequestsDtos;
 

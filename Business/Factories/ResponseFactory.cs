@@ -59,4 +59,13 @@ public class ResponseFactory
             StatusCode = ResultStatus.EXISTS,
         };
     }
+
+    public static ResponseResult ServerError(string? message = null)
+    {
+        return new ResponseResult
+        {
+            Message = message ?? "The server encountered an unexpected condition",
+            StatusCode = ResultStatus.SERVER_ERROR,
+        };
+    }
 }

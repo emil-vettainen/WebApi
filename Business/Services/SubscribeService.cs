@@ -1,7 +1,7 @@
 ﻿using Business.Dtos.SubsribersDtos;
 using Business.Factories;
 using Business.Helper.Responses;
-using Infrastructure.Repositories;
+using Infrastructure.Repositories.Subscribers;
 
 namespace Business.Services;
 

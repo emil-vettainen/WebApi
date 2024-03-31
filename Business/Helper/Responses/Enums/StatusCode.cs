@@ -10,5 +10,6 @@ public enum ResultStatus
     NOT_FOUND = 404,
     EXISTS = 409,
 
+    SERVER_ERROR = 500,
     UNAVAILABLE = 503,
 }

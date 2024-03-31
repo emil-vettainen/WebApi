@@ -14,7 +14,10 @@ public class CourseFactory
             CourseDescription = dto.CourseDescription,
             CourseImageUrl = dto.CourseImageUrl,
             IsBestseller = dto.IsBestseller,
-            Category = dto.Category,
+            CourseCategory = dto.Category.Select(x => new CourseCategoryEntity
+            {
+                Name = x.Name,
+            }).ToList(),
 
             Rating = new RatingEntity
             {
@@ -67,7 +70,10 @@ public class CourseFactory
             CourseDescription = dto.CourseDescription,
             CourseImageUrl = dto.CourseImageUrl,
             IsBestseller = dto.IsBestseller,
-            Category = dto.Category,
+            CourseCategory = dto.Category.Select(x => new CourseCategoryEntity
+            {
+                Name = x.Name,
+            }).ToList(),
 
             Rating = new RatingEntity
             {
@@ -122,7 +128,10 @@ public class CourseFactory
                 CourseDescription = entity.CourseDescription,
                 CourseImageUrl = entity.CourseImageUrl,
                 IsBestseller = entity.IsBestseller,
-                Category = entity.Category,
+                Category = entity.CourseCategory.Select(x => new CourseCategoryDto
+                {
+                    Name = x.Name,
+                }).ToList(),
                 Rating = new RatingDto
                 {
                     InNumbers = entity.Rating.InNumbers,

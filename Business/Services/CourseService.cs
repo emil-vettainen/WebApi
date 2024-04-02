@@ -37,8 +37,8 @@ namespace Business.Services
         {
             try
             {
-                var courses = await _courseRepository.GetAllAsync();
-                return courses.Any() ? ResponseFactory.Ok(courses.Select(course => CourseFactory.ToDto(course)).ToList()) : ResponseFactory.NotFound();
+                var courses = await _courseRepository.GetByFilterAsync();
+                return courses.Any() ? ResponseFactory.Ok(courses) : ResponseFactory.NotFound();
             }
             catch (Exception)
             {
@@ -47,20 +47,7 @@ namespace Business.Services
             }
         }
 
-        public async Task<ResponseResult> GetByCategoryAsync(string category)
-        {
-            try
-            {
-                var coursesByCategory = await _courseRepository.CategoryAsync(category);
-                return coursesByCategory.Any() ? ResponseFactory.Ok(coursesByCategory.Select(course => CourseFactory.ToDto(course)).ToList()) : ResponseFactory.NotFound();
-                
-            }
-            catch (Exception)
-            {
-                //logger
-                return ResponseFactory.Error();
-            }
-        }
+     
 
         public async Task<ResponseResult> GetOneAsync(string id)
         {

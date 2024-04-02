@@ -10,7 +10,7 @@ namespace Business.Dtos.CoursesDtos
         public string CourseDescription { get; set; } = null!;
         public string? CourseImageUrl { get; set; }
         public bool IsBestseller { get; set; } = false;
-        public List<CourseCategoryDto> Category { get; set; } = [];
+        public string Category { get; set; } = null!;
         public RatingDto Rating { get; set; } = null!;
         public PriceDto Price { get; set; } = null!;
         public IncludedDto Included { get; set; } = null!;

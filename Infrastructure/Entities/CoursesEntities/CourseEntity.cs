@@ -8,13 +8,14 @@ public class CourseEntity
     public string CourseDescription { get; set; } = null!;
     public string? CourseImageUrl { get; set; }
     public bool IsBestseller { get; set; } = false;
-    public List<CourseCategoryEntity> CourseCategory { get; set; } = [];
+    public string Category { get; set; } = null!;
     public RatingEntity Rating { get; set; } = null!;
     public PriceEntity Price { get; set; } = null!;
     public IncludedEntity Included { get; set; } = null!;
     public AuthorEntity Author { get; set; } = null!;
     public List<ProgramDetailsEntity> Content { get; set; } = [];
 }
+
 
 public class CourseCategoryEntity
 {

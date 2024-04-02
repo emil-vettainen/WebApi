@@ -9,7 +9,7 @@ public class CreateCourseDto
     public string CourseIngress { get; set; } = null!;
     public bool IsBestseller { get; set; } = false;
     public string? CourseImageUrl { get; set; }
-    public List<CourseCategoryDto> Category { get; set; } = [];
+    public string Category { get; set; } = null!;   
     public RatingDto Rating { get; set; } = null!;
     public PriceDto Price { get; set; } = null!;
     public IncludedDto Included { get; set; } = null!;

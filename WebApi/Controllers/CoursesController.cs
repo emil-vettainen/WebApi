@@ -37,31 +37,22 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetCourses(string? category)
+        public async Task<IActionResult> GetCourses()
         {
             try
             {
-                if (string.IsNullOrEmpty(category))
+                
+                
+                var result = await _courseService.GetAllAsync();
+                return result.StatusCode switch
                 {
-                    var result = await _courseService.GetAllAsync();
-                    return result.StatusCode switch
-                    {
-                        ResultStatus.OK => Ok(result.ContentResult),
-                        ResultStatus.NOT_FOUND => NotFound(),
-                        _ => BadRequest(),
-                    };
+                    ResultStatus.OK => Ok(result.ContentResult),
+                    ResultStatus.NOT_FOUND => NotFound(),
+                    _ => BadRequest(),
+                };
 
-                }
-                else
-                {
-                    var result = await _courseService.GetByCategoryAsync(category);
-                    return result.StatusCode switch
-                    {
-                        ResultStatus.OK => Ok(result.ContentResult),
-                        ResultStatus.NOT_FOUND => NotFound(),
-                        _ => BadRequest(),
-                    };
-                }
+                
+               
 
                 
             }

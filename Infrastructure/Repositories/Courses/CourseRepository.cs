@@ -26,27 +26,38 @@ namespace Infrastructure.Repositories.CoursesRepositories
             }
             catch (Exception)
             {
-
                 //logger
                 return false;
             }
         }
 
-        public async Task<IEnumerable<CourseEntity>> CategoryAsync(string category)
+       
+
+
+
+        public async Task<IEnumerable<CourseEntity>> GetByFilterAsync(string category = "", string searchQuery = "")
         {
             try
             {
-                var courses = await _context.Courses.FromSql($"SELECT * FROM c JOIN cat IN c.CourseCategory WHERE cat.Name = {category}").ToListAsync();
+                var query = _context.Courses.AsQueryable();
+
+                if (!string.IsNullOrEmpty(category) && category != "all")
+                    query = query.Where(x => x.Category == category);
+
+                if (!string.IsNullOrEmpty(searchQuery))
+                    query = query.Where(x => x.CourseTitle.Contains(searchQuery) || x.Author.FullName.Contains(searchQuery));
+
+
+                var courses = await query.ToListAsync();
                 return courses;
 
-
-               
             }
             catch (Exception)
-            {
+            { 
                 //logger
                 return [];
             }
         }
+
     }
 }

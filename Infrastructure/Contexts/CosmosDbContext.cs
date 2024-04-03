@@ -17,6 +17,5 @@ public class CosmosDbContext : DbContext
         modelBuilder.Entity<CourseEntity>()
             .ToContainer("Courses")
             .HasPartitionKey(x => x.Id);
-           
     }
 }

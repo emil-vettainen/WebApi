@@ -35,22 +35,20 @@ namespace Infrastructure.Repositories.CoursesRepositories
 
 
 
-        public async Task<IEnumerable<CourseEntity>> GetByFilterAsync(string category = "", string searchQuery = "")
+        public async Task<IEnumerable<CourseEntity>> QueryAsync(string? category, string? searchQuery)
         {
             try
             {
                 var query = _context.Courses.AsQueryable();
 
                 if (!string.IsNullOrEmpty(category) && category != "all")
-                    query = query.Where(x => x.Category == category);
+                    query = query.Where(x => x.CourseCategory.ToLower() == category.ToLower());
 
                 if (!string.IsNullOrEmpty(searchQuery))
-                    query = query.Where(x => x.CourseTitle.Contains(searchQuery) || x.Author.FullName.Contains(searchQuery));
-
+                    query = query.Where(x => x.CourseTitle.ToLower().Contains(searchQuery.ToLower()) || x.Author.FullName.ToLower().Contains(searchQuery.ToLower()));
 
                 var courses = await query.ToListAsync();
                 return courses;
-
             }
             catch (Exception)
             { 
@@ -58,6 +56,5 @@ namespace Infrastructure.Repositories.CoursesRepositories
                 return [];
             }
         }
-
     }
 }

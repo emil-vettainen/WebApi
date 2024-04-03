@@ -14,7 +14,7 @@ public class CourseFactory
             CourseDescription = dto.CourseDescription,
             CourseImageUrl = dto.CourseImageUrl,
             IsBestseller = dto.IsBestseller,
-            Category = dto.Category,
+            CourseCategory = dto.CourseCategory,
             Rating = new RatingEntity
             {
                 InNumbers = dto.Rating.InNumbers,
@@ -47,6 +47,12 @@ public class CourseFactory
                     Followers = dto.Author.SocialMedia.Followers,
                 }
             },
+
+            Highlights = dto.Highlights.Select(x => new HighlightsEntity
+            {
+                Highlight = x.Highlight,
+            }).ToList(),
+
             Content = dto.Content.Select(x => new ProgramDetailsEntity
             {
                 Title = x.Title,
@@ -66,7 +72,7 @@ public class CourseFactory
             CourseDescription = dto.CourseDescription,
             CourseImageUrl = dto.CourseImageUrl,
             IsBestseller = dto.IsBestseller,
-            Category = dto.Category,
+            CourseCategory = dto.CourseCategory,
             Rating = new RatingEntity
             {
                 InNumbers = dto.Rating.InNumbers,
@@ -99,6 +105,14 @@ public class CourseFactory
                     Followers = dto.Author.SocialMedia.Followers,
                 }
             },
+
+            Highlights = dto.Highlights.Select(x => new HighlightsEntity
+            {
+                Highlight = x.Highlight,
+
+            }).ToList(),
+      
+
             Content = dto.Content.Select(x => new ProgramDetailsEntity
             {
                 Title = x.Title,
@@ -120,7 +134,7 @@ public class CourseFactory
                 CourseDescription = entity.CourseDescription,
                 CourseImageUrl = entity.CourseImageUrl,
                 IsBestseller = entity.IsBestseller,
-                Category = entity.Category,
+                CourseCategory = entity.CourseCategory,
                 Rating = new RatingDto
                 {
                     InNumbers = entity.Rating.InNumbers,
@@ -153,6 +167,12 @@ public class CourseFactory
                         Followers = entity.Author.SocialMedia!.Followers!,
                     }
                 },
+
+                Highlights = entity.Highlights.Select(x => new HighlightsDto
+                {
+                    Highlight = x.Highlight,
+                }).ToList(),
+
                 Content = entity.Content.Select(x => new ProgramDetailsDto
                 {
                     Title = x.Title,

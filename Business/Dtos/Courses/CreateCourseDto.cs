@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Infrastructure.Entities.CoursesEntities;
+using Newtonsoft.Json.Linq;
 
 namespace Business.Dtos.CoursesDtos;
 
@@ -9,11 +10,12 @@ public class CreateCourseDto
     public string CourseIngress { get; set; } = null!;
     public bool IsBestseller { get; set; } = false;
     public string? CourseImageUrl { get; set; }
-    public string Category { get; set; } = null!;   
+    public string CourseCategory { get; set; } = null!;
     public RatingDto Rating { get; set; } = null!;
     public PriceDto Price { get; set; } = null!;
     public IncludedDto Included { get; set; } = null!;
     public AuthorDto Author { get; set; } = null!;
+    public List<HighlightsDto> Highlights { get; set; } = [];
     public List<ProgramDetailsDto> Content { get; set; } = [];
 }
 
@@ -59,6 +61,11 @@ public class SocialMediaDto
     public string Subscribers { get; set; } = null!;
     public string FacebookUrl { get; set; } = null!;
     public string Followers { get; set; } = null!;
+}
+
+public class HighlightsDto
+{
+    public string Highlight { get; set; } = null!;
 }
 
 public class ProgramDetailsDto

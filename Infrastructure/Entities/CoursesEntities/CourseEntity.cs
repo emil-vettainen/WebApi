@@ -8,18 +8,13 @@ public class CourseEntity
     public string CourseDescription { get; set; } = null!;
     public string? CourseImageUrl { get; set; }
     public bool IsBestseller { get; set; } = false;
-    public string Category { get; set; } = null!;
+    public string CourseCategory { get; set; } = null!;
     public RatingEntity Rating { get; set; } = null!;
     public PriceEntity Price { get; set; } = null!;
     public IncludedEntity Included { get; set; } = null!;
     public AuthorEntity Author { get; set; } = null!;
+    public List<HighlightsEntity> Highlights { get; set; } = [];
     public List<ProgramDetailsEntity> Content { get; set; } = [];
-}
-
-
-public class CourseCategoryEntity
-{
-    public string Name { get; set; } = null!;
 }
 
 
@@ -60,6 +55,12 @@ public class SocialMediaEntity
     public string? FacebookUrl { get; set; }
     public string? Followers { get; set; }
 }
+
+public class HighlightsEntity
+{
+    public string Highlight { get; set; } = null!;
+}
+
 
 public class ProgramDetailsEntity
 {

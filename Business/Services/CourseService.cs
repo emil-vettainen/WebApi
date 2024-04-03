@@ -33,12 +33,12 @@ namespace Business.Services
             }
         }
 
-        public async Task<ResponseResult> GetAllAsync()
+        public async Task<ResponseResult> GetAllAsync(string? category, string? searchQuery)
         {
             try
             {
-                var courses = await _courseRepository.GetByFilterAsync();
-                return courses.Any() ? ResponseFactory.Ok(courses) : ResponseFactory.NotFound();
+                var courses = await _courseRepository.QueryAsync(category, searchQuery);
+                return courses.Any() ? ResponseFactory.Ok(courses, "Success") : ResponseFactory.NotFound();
             }
             catch (Exception)
             {

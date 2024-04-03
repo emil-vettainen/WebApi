@@ -25,7 +25,6 @@ namespace WebApi.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-
                 var result = await _contactRequestService.CreateRequest(dto);
                 return result.StatusCode switch
                 {
@@ -53,7 +52,6 @@ namespace WebApi.Controllers
                     ResultStatus.NOT_FOUND => NotFound(),
                     _ => StatusCode(500),
                 };
-
             }
             catch (Exception)
             {
@@ -74,7 +72,6 @@ namespace WebApi.Controllers
                     ResultStatus.NOT_FOUND => NotFound(),
                     _ => StatusCode(500),
                 };
-
             }
             catch (Exception)
             {
@@ -92,7 +89,6 @@ namespace WebApi.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-
                 var result = await _contactRequestService.Update(id, dto);
                 return result.StatusCode switch
                 {

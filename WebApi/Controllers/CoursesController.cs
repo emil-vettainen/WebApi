@@ -21,13 +21,19 @@ namespace WebApi.Controllers
         {
             try
             {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
                 var result = await _courseService.CreateAsync(dto);
                 return result.StatusCode switch
                 {
                     ResultStatus.OK => Ok(),
                     ResultStatus.EXISTS => Conflict(),
                     _ => BadRequest()
-                }; 
+                };
+
             }
             catch (Exception)
             {
@@ -37,30 +43,24 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetCourses()
+        public async Task<IActionResult> GetCourses(string? category, string? searchQuery)
         {
             try
             {
-                
-                
-                var result = await _courseService.GetAllAsync();
+                var result = await _courseService.GetAllAsync(category, searchQuery);
                 return result.StatusCode switch
                 {
                     ResultStatus.OK => Ok(result.ContentResult),
                     ResultStatus.NOT_FOUND => NotFound(),
                     _ => BadRequest(),
                 };
-
-                
-               
-
-                
             }
             catch (Exception)
             {
                 //logger
                 return BadRequest();
             }
+
 
         }
 

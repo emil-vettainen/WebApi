@@ -5,121 +5,142 @@ namespace Business.Factories;
 
 public class CourseFactory
 {
-    public static CourseEntity FromDto(CreateCourseDto dto)
+    public static CourseEntity CreateFromDto(CreateCourseDto dto)
     {
-        return new CourseEntity
+        try
         {
-            CourseTitle = dto.CourseTitle,
-            CourseIngress = dto.CourseIngress,
-            CourseDescription = dto.CourseDescription,
-            CourseImageUrl = dto.CourseImageUrl,
-            IsBestseller = dto.IsBestseller,
-            CourseCategory = dto.CourseCategory,
-            Rating = new RatingEntity
+            return new CourseEntity
             {
-                InNumbers = dto.Rating.InNumbers,
-                InProcent = dto.Rating.InProcent,
-            },
-            Price = new PriceEntity
-            {
-                OriginalPrice = dto.Price.OriginalPrice,
-                DiscountPrice = dto.Price.DiscountPrice,
-            },
-            Included = new IncludedEntity
-            {
-                HoursOfVideo = dto.Included.HoursOfVideo,
-                Articles = dto.Included.Articles,
-                Resourses = dto.Included.Resourses,
-                LifetimeAccess = dto.Included.LifetimeAccess,
-                Certificate = dto.Included.Certificate
-            },
-            Author = new AuthorEntity
-            {
-                FullName = dto.Author.FullName,
-                Biography = dto.Author.Biography,
-                ProfileImageUrl = dto.Author.ProfileImageUrl,
-
-                SocialMedia = new SocialMediaEntity
+                CourseTitle = dto.CourseTitle,
+                CourseIngress = dto.CourseIngress,
+                CourseDescription = dto.CourseDescription,
+                CourseImageUrl = dto.CourseImageUrl,
+                IsBestseller = dto.IsBestseller,
+                CourseCategory = dto.CourseCategory,
+                Created = DateTime.Now,
+                LastUpdated = DateTime.Now,
+                Rating = new RatingEntity
                 {
-                    YouTubeUrl = dto.Author.SocialMedia.YouTubeUrl,
-                    Subscribers = dto.Author.SocialMedia.Subscribers,
-                    FacebookUrl = dto.Author.SocialMedia.FacebookUrl,
-                    Followers = dto.Author.SocialMedia.Followers,
-                }
-            },
+                    InNumbers = dto.Rating.InNumbers,
+                    InProcent = dto.Rating.InProcent,
+                },
+                Price = new PriceEntity
+                {
+                    OriginalPrice = dto.Price.OriginalPrice,
+                    DiscountPrice = dto.Price.DiscountPrice,
+                },
+                Included = new IncludedEntity
+                {
+                    HoursOfVideo = dto.Included.HoursOfVideo,
+                    Articles = dto.Included.Articles,
+                    Resourses = dto.Included.Resourses,
+                    LifetimeAccess = dto.Included.LifetimeAccess,
+                    Certificate = dto.Included.Certificate
+                },
+                Author = new AuthorEntity
+                {
+                    FullName = dto.Author.FullName,
+                    Biography = dto.Author.Biography,
+                    ProfileImageUrl = dto.Author.ProfileImageUrl,
 
-            Highlights = dto.Highlights.Select(x => new HighlightsEntity
-            {
-                Highlight = x.Highlight,
-            }).ToList(),
+                    SocialMedia = new SocialMediaEntity
+                    {
+                        YouTubeUrl = dto.Author.SocialMedia.YouTubeUrl,
+                        Subscribers = dto.Author.SocialMedia.Subscribers,
+                        FacebookUrl = dto.Author.SocialMedia.FacebookUrl,
+                        Followers = dto.Author.SocialMedia.Followers,
+                    }
+                },
 
-            Content = dto.Content.Select(x => new ProgramDetailsEntity
-            {
-                Title = x.Title,
-                Description = x.Description,
-            }).ToList()
-            
-        };
+                Highlights = dto.Highlights.Select(x => new HighlightsEntity
+                {
+                    Highlight = x.Highlight,
+                }).ToList(),
+
+                Content = dto.Content.Select(x => new ProgramDetailsEntity
+                {
+                    Title = x.Title,
+                    Description = x.Description,
+                }).ToList()
+
+            };
+        }
+        catch (Exception)
+        {
+            //logger
+            return null!;
+        }
     }
 
-    public static CourseEntity FromDto(string id, CreateCourseDto dto)
+    public static CourseEntity UpdateFromDto(string id, CreateCourseDto dto)
     {
-        return new CourseEntity
+        try
         {
-            Id = id,
-            CourseTitle = dto.CourseTitle,
-            CourseIngress = dto.CourseIngress,
-            CourseDescription = dto.CourseDescription,
-            CourseImageUrl = dto.CourseImageUrl,
-            IsBestseller = dto.IsBestseller,
-            CourseCategory = dto.CourseCategory,
-            Rating = new RatingEntity
+            return new CourseEntity
             {
-                InNumbers = dto.Rating.InNumbers,
-                InProcent = dto.Rating.InProcent,
-            },
-            Price = new PriceEntity
-            {
-                OriginalPrice = dto.Price.OriginalPrice,
-                DiscountPrice = dto.Price.DiscountPrice,
-            },
-            Included = new IncludedEntity
-            {
-                HoursOfVideo = dto.Included.HoursOfVideo,
-                Articles = dto.Included.Articles,
-                Resourses = dto.Included.Resourses,
-                LifetimeAccess = dto.Included.LifetimeAccess,
-                Certificate = dto.Included.Certificate
-            },
-            Author = new AuthorEntity
-            {
-                FullName = dto.Author.FullName,
-                Biography = dto.Author.Biography,
-                ProfileImageUrl = dto.Author.ProfileImageUrl,
+                Id = id,
+                CourseTitle = dto.CourseTitle,
+                CourseIngress = dto.CourseIngress,
+                CourseDescription = dto.CourseDescription,
+                CourseImageUrl = dto.CourseImageUrl,
+                IsBestseller = dto.IsBestseller,
+                CourseCategory = dto.CourseCategory,
+                Created = dto.Created,
+                LastUpdated = DateTime.Now,
 
-                SocialMedia = new SocialMediaEntity
+                Rating = new RatingEntity
                 {
-                    YouTubeUrl = dto.Author.SocialMedia.YouTubeUrl,
-                    Subscribers = dto.Author.SocialMedia.Subscribers,
-                    FacebookUrl = dto.Author.SocialMedia.FacebookUrl,
-                    Followers = dto.Author.SocialMedia.Followers,
-                }
-            },
+                    InNumbers = dto.Rating.InNumbers,
+                    InProcent = dto.Rating.InProcent,
+                },
+                Price = new PriceEntity
+                {
+                    OriginalPrice = dto.Price.OriginalPrice,
+                    DiscountPrice = dto.Price.DiscountPrice,
+                },
+                Included = new IncludedEntity
+                {
+                    HoursOfVideo = dto.Included.HoursOfVideo,
+                    Articles = dto.Included.Articles,
+                    Resourses = dto.Included.Resourses,
+                    LifetimeAccess = dto.Included.LifetimeAccess,
+                    Certificate = dto.Included.Certificate
+                },
+                Author = new AuthorEntity
+                {
+                    FullName = dto.Author.FullName,
+                    Biography = dto.Author.Biography,
+                    ProfileImageUrl = dto.Author.ProfileImageUrl,
 
-            Highlights = dto.Highlights.Select(x => new HighlightsEntity
-            {
-                Highlight = x.Highlight,
+                    SocialMedia = new SocialMediaEntity
+                    {
+                        YouTubeUrl = dto.Author.SocialMedia.YouTubeUrl,
+                        Subscribers = dto.Author.SocialMedia.Subscribers,
+                        FacebookUrl = dto.Author.SocialMedia.FacebookUrl,
+                        Followers = dto.Author.SocialMedia.Followers,
+                    }
+                },
 
-            }).ToList(),
-      
+                Highlights = dto.Highlights.Select(x => new HighlightsEntity
+                {
+                    Highlight = x.Highlight,
 
-            Content = dto.Content.Select(x => new ProgramDetailsEntity
-            {
-                Title = x.Title,
-                Description = x.Description,
-            }).ToList()
+                }).ToList(),
 
-        };
+
+                Content = dto.Content.Select(x => new ProgramDetailsEntity
+                {
+                    Title = x.Title,
+                    Description = x.Description,
+                }).ToList()
+
+            };
+        }
+        catch (Exception)
+        {
+            //logger
+            return null!;
+        }
     }
 
     public static GetCourseDto ToDto(CourseEntity entity)
@@ -135,6 +156,8 @@ public class CourseFactory
                 CourseImageUrl = entity.CourseImageUrl,
                 IsBestseller = entity.IsBestseller,
                 CourseCategory = entity.CourseCategory,
+                Created = entity.Created,
+                LastUpdated = entity.LastUpdated,
                 Rating = new RatingDto
                 {
                     InNumbers = entity.Rating.InNumbers,
@@ -182,8 +205,8 @@ public class CourseFactory
         }
         catch (Exception)
         {
-
-            throw;
+            //logger
+            return null!;
         }
     }
 }

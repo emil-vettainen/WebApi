@@ -11,6 +11,8 @@ namespace Business.Dtos.CoursesDtos
         public string? CourseImageUrl { get; set; }
         public bool IsBestseller { get; set; } = false;
         public string CourseCategory {  get; set; } = null!;
+        public DateTime Created { get; set; }
+        public DateTime LastUpdated { get; set; }
         public RatingDto Rating { get; set; } = null!;
         public PriceDto Price { get; set; } = null!;
         public IncludedDto Included { get; set; } = null!;

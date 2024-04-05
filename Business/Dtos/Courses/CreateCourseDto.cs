@@ -11,6 +11,8 @@ public class CreateCourseDto
     public bool IsBestseller { get; set; } = false;
     public string? CourseImageUrl { get; set; }
     public string CourseCategory { get; set; } = null!;
+    public DateTime Created { get; set; }
+    public DateTime LastUpdated { get; set; }
     public RatingDto Rating { get; set; } = null!;
     public PriceDto Price { get; set; } = null!;
     public IncludedDto Included { get; set; } = null!;

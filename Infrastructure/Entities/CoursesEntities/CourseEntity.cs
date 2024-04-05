@@ -9,6 +9,8 @@ public class CourseEntity
     public string? CourseImageUrl { get; set; }
     public bool IsBestseller { get; set; } = false;
     public string CourseCategory { get; set; } = null!;
+    public DateTime Created { get; set; }
+    public DateTime LastUpdated { get; set; }
     public RatingEntity Rating { get; set; } = null!;
     public PriceEntity Price { get; set; } = null!;
     public IncludedEntity Included { get; set; } = null!;

@@ -1,3 +1,4 @@
+using Business.AutoMapper;
 using Business.Services;
 using Infrastructure.Contexts;
 using Infrastructure.Repositories.ContactRepositories;
@@ -11,6 +12,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+
+builder.Services.AddAutoMapper(typeof(AutoMapperConfig));
 
 builder.Services.AddDbContext<DataContext>(x => x.UseSqlServer(builder.Configuration.GetConnectionString("SQLServer")));
 builder.Services.AddScoped<SubscribeRepository>();

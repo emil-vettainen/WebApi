@@ -26,6 +26,20 @@ namespace Business.AutoMapper
             CreateMap<SocialMediaDto, SocialMediaEntity>();
             CreateMap<HighlightsDto, HighlightsEntity>();
             CreateMap<ProgramDetailsDto, ProgramDetailsEntity>();
+
+
+
+            CreateMap<CourseEntity, GetCourseDto>();
+
+            CreateMap<RatingEntity, RatingDto>();
+            CreateMap<PriceEntity, PriceDto>();
+            CreateMap<IncludedEntity, IncludedDto>();
+            CreateMap<AuthorEntity, AuthorDto>();
+            CreateMap<SocialMediaEntity, SocialMediaDto>();
+            CreateMap<HighlightsEntity, HighlightsDto>();
+            CreateMap<ProgramDetailsEntity, ProgramDetailsDto>();
+
+
         }
 
     }

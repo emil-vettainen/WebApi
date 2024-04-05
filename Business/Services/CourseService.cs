@@ -57,7 +57,7 @@ namespace Business.Services
             try
             {
                 var course = await _courseRepository.GetOneAsync(x => x.Id == id);
-                return course != null ? ResponseFactory.Ok(course) : ResponseFactory.NotFound();
+                return course != null ? ResponseFactory.Ok(_mapper.Map<GetCourseDto>(course)) : ResponseFactory.NotFound();
             }
             catch (Exception)
             {

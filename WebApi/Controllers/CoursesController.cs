@@ -64,6 +64,11 @@ namespace WebApi.Controllers
 
         }
 
+
+
+
+
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCourse(string id)
         {
@@ -82,6 +87,27 @@ namespace WebApi.Controllers
             {
                 //logger
                 return BadRequest();
+            }
+        }
+
+
+        [HttpPost("GetCoursesByIds")]
+        public async Task<IActionResult> GetCoursesByIds([FromBody] List<string> courseIds)
+        {
+            try
+            {
+                var result = await _courseService.GetCoursesByIdsAsync(courseIds);
+                return result.StatusCode switch
+                {
+                    ResultStatus.OK => Ok(result.ContentResult),
+                    ResultStatus.NOT_FOUND => NotFound(),
+                    _ => BadRequest(),
+                };
+            }
+            catch (Exception)
+            {
+                //logger
+                return StatusCode(500);
             }
         }
 

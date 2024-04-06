@@ -110,5 +110,20 @@ namespace Infrastructure.Repositories.CoursesRepositories
             }
         }
 
+        public async Task<IEnumerable<CourseEntity>> GetCoursesByIdsAsync(List<string> courseIds)
+        {
+            try
+            {
+                var courses = await _context.Courses.Where(x => courseIds.Contains(x.Id)).ToListAsync();
+                return courses;
+            }
+            catch (Exception)
+            {
+
+                return [];
+            }
+
+        }
+
     }
 }

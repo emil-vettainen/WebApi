@@ -151,5 +151,21 @@ namespace Business.Services
             }
         }
 
+
+        public async Task<ResponseResult> GetCoursesByIdsAsync(List<string> courseIds)
+        {
+            try
+            {
+                var result = await _courseRepository.GetCoursesByIdsAsync(courseIds);
+                return result.Any() ? ResponseFactory.Ok(result) : ResponseFactory.NotFound();
+
+            }
+            catch (Exception)
+            {
+                //logger
+                return ResponseFactory.Error();
+            }
+        }
+
     }
 }

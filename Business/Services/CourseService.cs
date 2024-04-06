@@ -1,8 +1,12 @@
 ﻿using AutoMapper;
+using Azure;
+using Business.Dtos.Courses;
 using Business.Dtos.CoursesDtos;
 using Business.Factories;
 using Business.Helper.Responses;
 using Infrastructure.Repositories.CoursesRepositories;
+using Microsoft.EntityFrameworkCore;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Business.Services
 {
@@ -36,12 +40,29 @@ namespace Business.Services
             }
         }
 
-        public async Task<ResponseResult> GetAllAsync(string? category, string? searchQuery)
+        public async Task<ResponseResult> GetAllAsync(string? category, string? searchQuery, int pageNumber, int pageSize)
         {
             try
             {
-                var courses = await _courseRepository.QueryAsync(category, searchQuery);
-                return courses.Any() ? ResponseFactory.Ok(courses, "Success") : ResponseFactory.NotFound();
+                var result = await _courseRepository.QueryAsync(category, searchQuery, pageNumber, pageSize);
+
+                if (result.Courses.Any())
+                {
+                    var response = new CourseResultDto
+                    {
+                        Succeeded = true,
+                        TotalItems = result.TotalItems,
+                        Courses = _mapper.Map<IEnumerable<GetCourseDto>>(result.Courses),
+                    };
+                    response.TotalPages = (int)Math.Ceiling(response.TotalItems / (double)pageSize);
+                    
+
+
+                    return ResponseFactory.Ok(response);
+                }
+                return ResponseFactory.NotFound();
+
+                //return courses.Any() ? ResponseFactory.Ok() : ResponseFactory.NotFound();
             }
             catch (Exception)
             {
@@ -109,6 +130,23 @@ namespace Business.Services
             catch (Exception)
             {
                 //logger
+                return ResponseFactory.Error();
+            }
+        }
+
+
+
+        public async Task<ResponseResult> GetCategoriesAsync()
+        {
+            try
+            {
+                var result = await _courseRepository.GetCategoriesAsync();
+                return result != null ? ResponseFactory.Ok(result) : ResponseFactory.NotFound();
+
+            }
+            catch (Exception)
+            {
+
                 return ResponseFactory.Error();
             }
         }

@@ -43,11 +43,11 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetCourses(string? category, string? searchQuery)
+        public async Task<IActionResult> GetCourses(string? category, string? searchQuery, int pageNumber = 1, int pageSize = 10)
         {
             try
             {
-                var result = await _courseService.GetAllAsync(category, searchQuery);
+                var result = await _courseService.GetAllAsync(category, searchQuery, pageNumber, pageSize);
                 return result.StatusCode switch
                 {
                     ResultStatus.OK => Ok(result.ContentResult),

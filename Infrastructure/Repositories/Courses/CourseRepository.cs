@@ -1,5 +1,6 @@
 ﻿using Infrastructure.Contexts;
 using Infrastructure.Entities.CoursesEntities;
+using Infrastructure.Model;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
@@ -32,7 +33,7 @@ namespace Infrastructure.Repositories.CoursesRepositories
 
      
 
-        public async Task<IEnumerable<CourseEntity>> QueryAsync(string? category, string? searchQuery)
+        public async Task<CourseQueryResultModel> QueryAsync(string? category, string? searchQuery, int pageNumber = 1, int pageSize = 10)
         {
             try
             {
@@ -49,15 +50,21 @@ namespace Infrastructure.Repositories.CoursesRepositories
                 {
                     query = query.Where(x => x.CourseTitle.ToLower().Contains(searchQuery.ToLower()) || x.Author.FullName.ToLower().Contains(searchQuery.ToLower()));
                 }
-                   
 
-                var courses = await query.ToListAsync();
-                return courses;
+                int totalItems = await query.CountAsync();
+
+                var courses = await query.OrderByDescending(x => x.Created)
+                    .Skip((pageNumber - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToListAsync();
+
+                return new CourseQueryResultModel { Courses = courses, TotalItems = totalItems };   
+                
             }
             catch (Exception)
-            { 
+            {
                 //logger
-                return [];
+                return new CourseQueryResultModel { Courses = [], TotalItems = 0 };
             }
         }
 
@@ -83,7 +90,23 @@ namespace Infrastructure.Repositories.CoursesRepositories
             catch (Exception)
             {
 
-                throw;
+                return null!;
+            }
+        }
+
+
+
+        public async Task<IEnumerable<string>> GetCategoriesAsync()
+        {
+            try
+            {
+                var categories = await _context.Courses.Select(x => x.CourseCategory).Distinct().ToListAsync();
+                return categories;
+            }
+            catch (Exception)
+            {
+
+                return [];
             }
         }
 

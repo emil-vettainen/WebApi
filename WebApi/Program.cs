@@ -28,8 +28,18 @@ builder.Services.AddScoped<CourseRepository>();
 builder.Services.AddScoped<CourseService>();
 
 
+//builder.Services.AddCors(x =>
+//{
+//    x.AddPolicy("CustomOriginPolicy", policy =>
+//    {
+//        policy.WithOrigins
+//    });
+//});
+
+
 var app = builder.Build();
 
+app.UseCors(x => x.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod());
 
 if (app.Environment.IsDevelopment())
 {

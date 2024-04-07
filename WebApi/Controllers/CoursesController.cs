@@ -29,11 +29,10 @@ namespace WebApi.Controllers
                 var result = await _courseService.CreateAsync(dto);
                 return result.StatusCode switch
                 {
-                    ResultStatus.OK => Ok(),
+                    ResultStatus.OK => Created(),
                     ResultStatus.EXISTS => Conflict(),
                     _ => BadRequest()
                 };
-
             }
             catch (Exception)
             {
@@ -41,6 +40,7 @@ namespace WebApi.Controllers
                 return BadRequest();
             }
         }
+
 
         [HttpGet]
         public async Task<IActionResult> GetCourses(string? category, string? searchQuery, int pageNumber = 1, int pageSize = 10)
@@ -60,13 +60,7 @@ namespace WebApi.Controllers
                 //logger
                 return BadRequest();
             }
-
-
         }
-
-
-
-
 
 
         [HttpGet("{id}")]
@@ -117,6 +111,11 @@ namespace WebApi.Controllers
         {
             try
             {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest();
+                }
+
                 var result = await _courseService.UpdateAsync(id, dto);
                 return result.StatusCode switch
                 {
@@ -130,7 +129,6 @@ namespace WebApi.Controllers
                 //logger
                 return BadRequest();
             }
-
         }
 
 
@@ -146,7 +144,6 @@ namespace WebApi.Controllers
                     ResultStatus.NOT_FOUND => NotFound(),
                     _ => BadRequest(),
                 };
-
             }
             catch (Exception)
             {

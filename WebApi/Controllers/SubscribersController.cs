@@ -2,11 +2,13 @@
 using Business.Helper.Responses.Enums;
 using Business.Services;
 using Microsoft.AspNetCore.Mvc;
+using WebApi.Filters;
 
 namespace WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [UseApiKey]
     public class SubscribersController : ControllerBase
     {
         private readonly SubscribeService _subscribeService;
@@ -117,7 +119,6 @@ namespace WebApi.Controllers
                     ResultStatus.OK => Ok(),
                     ResultStatus.NOT_FOUND => NotFound(),
                     _ => BadRequest("An unexpected error occurred. Please try again!")
-
                 };
             }
             catch (Exception)

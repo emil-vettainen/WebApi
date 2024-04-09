@@ -31,7 +31,7 @@ namespace WebApi.Controllers
                 {
                     Issuer = _configuration["Jwt:Issuer"],
                     Audience = _configuration["Jwt:Audience"],
-                    Expires = DateTime.Now.AddMinutes(15),
+                    Expires = DateTime.Now.AddDays(1),
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Secret"]!)), SecurityAlgorithms.HmacSha256Signature),
 
                 };

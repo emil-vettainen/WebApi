@@ -33,7 +33,7 @@ namespace WebApi.Controllers
                 var result = await _courseService.CreateAsync(dto);
                 return result.StatusCode switch
                 {
-                    ResultStatus.OK => Created(),
+                    ResultStatus.OK => Created("", null),
                     ResultStatus.EXISTS => Conflict(),
                     _ => BadRequest()
                 };

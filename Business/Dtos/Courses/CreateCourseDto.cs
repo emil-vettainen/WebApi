@@ -21,10 +21,7 @@ public class CreateCourseDto
     public List<ProgramDetailsDto> Content { get; set; } = [];
 }
 
-public class CourseCategoryDto
-{
-    public string Name { get; set; } = null!;
-}
+
 
 
 public class RatingDto
@@ -54,15 +51,15 @@ public class AuthorDto
     public string FullName { get; set; } = null!;
     public string Biography { get; set; } = null!;
     public string? ProfileImageUrl { get; set; }
-    public SocialMediaDto SocialMedia { get; set; } = null!;
+    public SocialMediaDto? SocialMedia { get; set; }
 }
 
 public class SocialMediaDto
 {
-    public string YouTubeUrl { get; set; } = null!;
-    public string Subscribers { get; set; } = null!;
-    public string FacebookUrl { get; set; } = null!;
-    public string Followers { get; set; } = null!;
+    public string? YouTubeUrl { get; set; }
+    public string? Subscribers { get; set; }
+    public string? FacebookUrl { get; set; }
+    public string? Followers { get; set; }
 }
 
 public class HighlightsDto

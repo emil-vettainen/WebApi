@@ -29,13 +29,6 @@ builder.Services.AddScoped<CourseRepository>();
 builder.Services.AddScoped<CourseService>();
 
 
-//builder.Services.AddCors(x =>
-//{
-//    x.AddPolicy("CustomOriginPolicy", policy =>
-//    {
-//        policy.WithOrigins
-//    });
-//});
 
 builder.Services.RegisterSwagger();
 builder.Services.ReqisterJwt(builder.Configuration);

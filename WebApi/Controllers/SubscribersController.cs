@@ -7,8 +7,7 @@ using WebApi.Filters;
 namespace WebApi.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController]
-    [UseApiKey]
+ 
     public class SubscribersController : ControllerBase
     {
         private readonly SubscribeService _subscribeService;

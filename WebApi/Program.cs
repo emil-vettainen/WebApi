@@ -5,6 +5,7 @@ using Infrastructure.Repositories.ContactRepositories;
 using Infrastructure.Repositories.CoursesRepositories;
 using Infrastructure.Repositories.Subscribers;
 using Microsoft.EntityFrameworkCore;
+using WebApi.Configurations;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,18 +37,18 @@ builder.Services.AddScoped<CourseService>();
 //    });
 //});
 
+builder.Services.RegisterSwagger();
+builder.Services.ReqisterJwt(builder.Configuration);
 
 var app = builder.Build();
 
 app.UseCors(x => x.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod());
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseSwagger();
+app.UseSwaggerUI(x => x.SwaggerEndpoint("/swagger/v1/swagger.json", "Silicon Web Api v1"));
 
 app.UseHttpsRedirection();
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 app.Run();

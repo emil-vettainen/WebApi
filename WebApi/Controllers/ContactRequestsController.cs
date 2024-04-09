@@ -2,11 +2,13 @@
 using Business.Helper.Responses.Enums;
 using Business.Services;
 using Microsoft.AspNetCore.Mvc;
+using WebApi.Filters;
 
 namespace WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [UseApiKey]
     public class ContactRequestsController : ControllerBase
     {
         private readonly ContactRequestService _contactRequestService;

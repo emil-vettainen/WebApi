@@ -1,12 +1,16 @@
 ﻿using Business.Helper.Responses.Enums;
 using Business.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using WebApi.Filters;
 
 namespace WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [UseApiKey]
+    [Authorize]
     public class CourseCategoriesController : ControllerBase
     {
         private readonly CourseService _courseService;
@@ -16,7 +20,8 @@ namespace WebApi.Controllers
             _courseService = courseService;
         }
 
-        [HttpGet]
+        [AllowAnonymous]
+        [HttpGet]   
         public async Task<IActionResult> Categories()
         {
             try

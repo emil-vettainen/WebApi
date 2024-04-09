@@ -1,12 +1,16 @@
 ﻿using Business.Dtos.CoursesDtos;
 using Business.Helper.Responses.Enums;
 using Business.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using WebApi.Filters;
 
 namespace WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [UseApiKey]
+    [Authorize]
     public class CoursesController : ControllerBase
     {
         private readonly CourseService _courseService;
@@ -41,7 +45,7 @@ namespace WebApi.Controllers
             }
         }
 
-
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> GetCourses(string? category, string? searchQuery, int pageNumber = 1, int pageSize = 10)
         {
@@ -62,7 +66,7 @@ namespace WebApi.Controllers
             }
         }
 
-
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCourse(string id)
         {
@@ -84,7 +88,7 @@ namespace WebApi.Controllers
             }
         }
 
-
+        [AllowAnonymous]
         [HttpPost("GetCoursesByIds")]
         public async Task<IActionResult> GetCoursesByIds([FromBody] List<string> courseIds)
         {

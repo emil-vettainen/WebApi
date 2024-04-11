@@ -3,157 +3,165 @@ using Business.Helper.Responses.Enums;
 using Business.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 using WebApi.Filters;
 
-namespace WebApi.Controllers
+namespace WebApi.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+[UseApiKey]
+[Authorize]
+public class CoursesController(CourseService courseService) : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    [UseApiKey]
-    [Authorize]
-    public class CoursesController : ControllerBase
+    private readonly CourseService _courseService = courseService;
+
+    #region Create
+    [HttpPost] 
+    public async Task<IActionResult> CreateCourse(CreateCourseDto dto)
     {
-        private readonly CourseService _courseService;
-
-        public CoursesController(CourseService courseService)
+        try
         {
-            _courseService = courseService;
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var result = await _courseService.CreateAsync(dto);
+            return result.StatusCode switch
+            {
+                ResultStatus.OK => Created("", null),
+                ResultStatus.EXISTS => Conflict(),
+                _ => BadRequest()
+            };
         }
-
-        [HttpPost] 
-        public async Task<IActionResult> CreateCourse(CreateCourseDto dto)
+        catch (Exception ex)
         {
-            try
-            {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
-
-                var result = await _courseService.CreateAsync(dto);
-                return result.StatusCode switch
-                {
-                    ResultStatus.OK => Created("", null),
-                    ResultStatus.EXISTS => Conflict(),
-                    _ => BadRequest()
-                };
-            }
-            catch (Exception)
-            {
-                //logger
-                return BadRequest();
-            }
+            Debug.WriteLine(ex.Message);
+            return StatusCode(500);
         }
+    }
+    #endregion
 
-        [AllowAnonymous]
-        [HttpGet]
-        public async Task<IActionResult> GetCourses(string? category, string? searchQuery, int pageNumber = 1, int pageSize = 10)
+
+    #region Read All
+    [AllowAnonymous]
+    [HttpGet]
+    public async Task<IActionResult> GetCourses(string? category, string? searchQuery, int pageNumber = 1, int pageSize = 10)
+    {
+        try
         {
-            try
+            var result = await _courseService.GetAllAsync(category, searchQuery, pageNumber, pageSize);
+            return result.StatusCode switch
             {
-                var result = await _courseService.GetAllAsync(category, searchQuery, pageNumber, pageSize);
-                return result.StatusCode switch
-                {
-                    ResultStatus.OK => Ok(result.ContentResult),
-                    ResultStatus.NOT_FOUND => NotFound(),
-                    _ => BadRequest(),
-                };
-            }
-            catch (Exception)
-            {
-                //logger
-                return BadRequest();
-            }
+                ResultStatus.OK => Ok(result.ContentResult),
+                ResultStatus.NOT_FOUND => NotFound(),
+                _ => BadRequest(),
+            };
         }
-
-        [AllowAnonymous]
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetCourse(string id)
+        catch (Exception ex)
         {
-            try
-            {
-                var result = await _courseService.GetOneAsync(id);
-                return result.StatusCode switch
-                {
-                    ResultStatus.OK => Ok(result.ContentResult),
-                    ResultStatus.NOT_FOUND => NotFound(),
-                    _ => BadRequest(),
-                };
-
-            }
-            catch (Exception)
-            {
-                //logger
-                return BadRequest();
-            }
+            Debug.WriteLine(ex.Message);
+            return StatusCode(500);
         }
+    }
+    #endregion
 
-        [AllowAnonymous]
-        [HttpPost("GetCoursesByIds")]
-        public async Task<IActionResult> GetCoursesByIds([FromBody] List<string> courseIds)
+
+    #region Read One
+    [AllowAnonymous]
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetCourse(string id)
+    {
+        try
         {
-            try
+            var result = await _courseService.GetOneAsync(id);
+            return result.StatusCode switch
             {
-                var result = await _courseService.GetCoursesByIdsAsync(courseIds);
-                return result.StatusCode switch
-                {
-                    ResultStatus.OK => Ok(result.ContentResult),
-                    ResultStatus.NOT_FOUND => NotFound(),
-                    _ => BadRequest(),
-                };
-            }
-            catch (Exception)
-            {
-                //logger
-                return StatusCode(500);
-            }
+                ResultStatus.OK => Ok(result.ContentResult),
+                ResultStatus.NOT_FOUND => NotFound(),
+                _ => BadRequest(),
+            };
         }
-
-
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateCourse(string id, CreateCourseDto dto)
+        catch (Exception ex)
         {
-            try
-            {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest();
-                }
+            Debug.WriteLine(ex.Message);
+            return StatusCode(500);
+        }
+    }
+    #endregion
 
+
+    #region Read By Ids
+    [AllowAnonymous]
+    [HttpPost("GetCoursesByIds")]
+    public async Task<IActionResult> GetCoursesByIds([FromBody] List<string> courseIds)
+    {
+        try
+        {
+            var result = await _courseService.GetCoursesByIdsAsync(courseIds);
+            return result.StatusCode switch
+            {
+                ResultStatus.OK => Ok(result.ContentResult),
+                ResultStatus.NOT_FOUND => NotFound(),
+                _ => BadRequest(),
+            };
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(ex.Message);
+            return StatusCode(500);
+        }
+    }
+    #endregion
+
+
+    #region Update
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateCourse(string id, CreateCourseDto dto)
+    {
+        try
+        {
+            if (ModelState.IsValid)
+            {
                 var result = await _courseService.UpdateAsync(id, dto);
                 return result.StatusCode switch
                 {
                     ResultStatus.OK => Ok(result.ContentResult),
                     ResultStatus.NOT_FOUND => NotFound(),
-                    _ => BadRequest(),
+                    _ => StatusCode(500),
                 };
-            }
-            catch (Exception)
-            {
-                //logger
-                return BadRequest();
             }
         }
-
-
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCourse (string id)
+        catch (Exception ex)
         {
-            try
+            Debug.WriteLine(ex.Message);
+        }
+        return BadRequest();
+    }
+    #endregion
+
+
+    #region Delete
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteCourse(string id)
+    {
+        try
+        {
+            var result = await _courseService.DeleteAsync(id);
+            return result.StatusCode switch
             {
-                var result = await _courseService.DeleteAsync(id);
-                return result.StatusCode switch
-                {
-                    ResultStatus.OK => Ok(),
-                    ResultStatus.NOT_FOUND => NotFound(),
-                    _ => BadRequest(),
-                };
-            }
-            catch (Exception)
-            {
-                //logger
-                return BadRequest();
-            }
+                ResultStatus.OK => Ok(),
+                ResultStatus.NOT_FOUND => NotFound(),
+                _ => BadRequest(),
+            };
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(ex.Message);
+            return StatusCode(500);
         }
     }
+    #endregion
+
+
 }

@@ -1,11 +1,6 @@
 ﻿using AutoMapper;
 using Business.Dtos.CoursesDtos;
 using Infrastructure.Entities.CoursesEntities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Business.AutoMapper
 {
@@ -27,8 +22,6 @@ namespace Business.AutoMapper
             CreateMap<HighlightsDto, HighlightsEntity>();
             CreateMap<ProgramDetailsDto, ProgramDetailsEntity>();
 
-
-
             CreateMap<CourseEntity, GetCourseDto>();
 
             CreateMap<RatingEntity, RatingDto>();
@@ -38,9 +31,6 @@ namespace Business.AutoMapper
             CreateMap<SocialMediaEntity, SocialMediaDto>();
             CreateMap<HighlightsEntity, HighlightsDto>();
             CreateMap<ProgramDetailsEntity, ProgramDetailsDto>();
-
-
         }
-
     }
 }

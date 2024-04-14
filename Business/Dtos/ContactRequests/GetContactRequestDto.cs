@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Business.Dtos.ContactRequests;
+﻿namespace Business.Dtos.ContactRequests;
 
 public class GetContactRequestDto
 {

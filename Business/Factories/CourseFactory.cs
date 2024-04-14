@@ -45,7 +45,7 @@ public class CourseFactory
 
                     SocialMedia = new SocialMediaEntity
                     {
-                        YouTubeUrl = dto.Author.SocialMedia.YouTubeUrl,
+                        YouTubeUrl = dto.Author.SocialMedia!.YouTubeUrl,
                         Subscribers = dto.Author.SocialMedia.Subscribers,
                         FacebookUrl = dto.Author.SocialMedia.FacebookUrl,
                         Followers = dto.Author.SocialMedia.Followers,
@@ -114,7 +114,7 @@ public class CourseFactory
 
                     SocialMedia = new SocialMediaEntity
                     {
-                        YouTubeUrl = dto.Author.SocialMedia.YouTubeUrl,
+                        YouTubeUrl = dto.Author.SocialMedia!.YouTubeUrl,
                         Subscribers = dto.Author.SocialMedia.Subscribers,
                         FacebookUrl = dto.Author.SocialMedia.FacebookUrl,
                         Followers = dto.Author.SocialMedia.Followers,

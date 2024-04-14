@@ -1,46 +1,39 @@
 ﻿using Business.Helper.Responses.Enums;
 using Business.Services;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 using WebApi.Filters;
 
-namespace WebApi.Controllers
+namespace WebApi.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+[UseApiKey]
+public class CourseCategoriesController(CourseService courseService) : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    [UseApiKey]
-    [Authorize]
-    public class CourseCategoriesController : ControllerBase
+    private readonly CourseService _courseService = courseService;
+
+    #region Get Categories
+    [HttpGet]   
+    public async Task<IActionResult> Categories()
     {
-        private readonly CourseService _courseService;
-
-        public CourseCategoriesController(CourseService courseService)
+        try
         {
-            _courseService = courseService;
+            var result = await _courseService.GetCategoriesAsync();
+            return result.StatusCode switch
+            {
+                ResultStatus.OK => Ok(result.ContentResult),
+                ResultStatus.NOT_FOUND => NotFound(),
+                _ => BadRequest(),
+            };
         }
-
-        [AllowAnonymous]
-        [HttpGet]   
-        public async Task<IActionResult> Categories()
+        catch (Exception ex)
         {
-            try
-            {
-                var result = await _courseService.GetCategoriesAsync();
-                return result.StatusCode switch
-                {
-                    ResultStatus.OK => Ok(result.ContentResult),
-                    ResultStatus.NOT_FOUND => NotFound(),
-                    _ => BadRequest(),
-                };
-
-            }
-            catch (Exception)
-            {
-
-                return StatusCode(500);
-            }
+            Debug.WriteLine(ex.Message);
+            return StatusCode(500);
         }
-
     }
+    #endregion
+
+
 }

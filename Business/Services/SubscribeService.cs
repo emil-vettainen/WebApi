@@ -2,19 +2,13 @@
 using Business.Factories;
 using Business.Helper.Responses;
 using Infrastructure.Repositories.Subscribers;
+using System.Diagnostics;
 
 namespace Business.Services;
 
-public class SubscribeService
+public class SubscribeService(SubscribeRepository subsribeRepository)
 {
-    private readonly SubscribeRepository _subsribeRepository;
-
-
-    public SubscribeService(SubscribeRepository subsribeRepository)
-    {
-        _subsribeRepository = subsribeRepository;
-
-    }
+    private readonly SubscribeRepository _subsribeRepository = subsribeRepository;
 
     public async Task<ResponseResult> CreateAsync(CreateSubscribeDto dto)
     {
@@ -27,10 +21,10 @@ public class SubscribeService
             var result = await _subsribeRepository.CreateAsync(SubscribeFactory.FromDto(dto));
             return result != null ? ResponseFactory.Ok() : ResponseFactory.Error();
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            //logger
-            return ResponseFactory.Error();
+            Debug.WriteLine(ex.Message);
+            return ResponseFactory.ServerError();
         }
     }
 
@@ -42,10 +36,10 @@ public class SubscribeService
             var subscribers = await _subsribeRepository.GetAllAsync();
             return subscribers.Any() ? ResponseFactory.Ok(subscribers.Select(subscriber => SubscribeFactory.ToDto(subscriber)).ToList()) : ResponseFactory.NotFound();
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            //logger
-            return ResponseFactory.Error();
+            Debug.WriteLine(ex.Message);
+            return ResponseFactory.ServerError();
         }
     }
 
@@ -57,10 +51,10 @@ public class SubscribeService
             var subscriber = await _subsribeRepository.GetOneAsync(x => x.Id == id);
             return subscriber != null ? ResponseFactory.Ok(SubscribeFactory.ToDto(subscriber)) : ResponseFactory.NotFound();
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            //logger
-            return ResponseFactory.Error();
+            Debug.WriteLine(ex.Message);
+            return ResponseFactory.ServerError();
         }
     }
 
@@ -72,12 +66,13 @@ public class SubscribeService
             var result = await _subsribeRepository.UpdateAsync(x => x.Id == id, SubscribeFactory.FromDto(id, dto));
             return result != null ? ResponseFactory.Ok(SubscribeFactory.ToDto(result)) : ResponseFactory.NotFound();
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            //logger
-            return ResponseFactory.Error();
+            Debug.WriteLine(ex.Message);
+            return ResponseFactory.ServerError();
         }
     }
+
 
     public async Task<ResponseResult> DeleteAsync(string id)
     {
@@ -87,20 +82,13 @@ public class SubscribeService
             {
                 return ResponseFactory.NotFound();
             }
-
             var result = await _subsribeRepository.DeleteAsync(x => x.Id == id);
             return result ? ResponseFactory.Ok() : ResponseFactory.Error();
-
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            //logger
-            return ResponseFactory.Error();
+            Debug.WriteLine(ex.Message);
+            return ResponseFactory.ServerError();
         }
     }
-
-
-
-
-
 }

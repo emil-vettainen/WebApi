@@ -1,16 +1,13 @@
 ﻿using Infrastructure.Contexts;
 using Infrastructure.Entities.ContactFormsEntities;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace Infrastructure.Repositories.ContactRepositories;
 
-public class ContactRequestRepository : BaseRepository<ContactRequestEntity, DataContext>
+public class ContactRequestRepository(DataContext context, DataContext dataContext) : BaseRepository<ContactRequestEntity, DataContext>(context)
 {
-	private readonly DataContext _dataContext;
-    public ContactRequestRepository(DataContext context, DataContext dataContext) : base(context)
-    {
-        _dataContext = dataContext;
-    }
+	private readonly DataContext _dataContext = dataContext;
 
     public async Task<IEnumerable<ContactRequestEntity>> GetAllByEmailAsync(string email)
     {
@@ -18,11 +15,10 @@ public class ContactRequestRepository : BaseRepository<ContactRequestEntity, Dat
 		{
 			var entities = await _dataContext.ContactRequests.Where(x => x.Email == email).ToListAsync();
 			return entities;
-
 		}
-		catch (Exception)
+		catch (Exception ex)
 		{
-			//logger
+			Debug.WriteLine(ex.Message);
             return [];
 		}
     }

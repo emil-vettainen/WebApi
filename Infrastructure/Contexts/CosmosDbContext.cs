@@ -18,8 +18,5 @@ public class CosmosDbContext : DbContext
             .ToContainer("Courses")
             .HasNoDiscriminator()
             .HasPartitionKey(x => x.Id);
-
-
-
     }
 }

@@ -1,7 +1,4 @@
-﻿using Infrastructure.Entities.CoursesEntities;
-using Newtonsoft.Json.Linq;
-
-namespace Business.Dtos.CoursesDtos;
+﻿namespace Business.Dtos.CoursesDtos;
 
 public class CreateCourseDto
 {
@@ -19,56 +16,4 @@ public class CreateCourseDto
     public AuthorDto Author { get; set; } = null!;
     public List<HighlightsDto> Highlights { get; set; } = [];
     public List<ProgramDetailsDto> Content { get; set; } = [];
-}
-
-
-
-
-public class RatingDto
-{
-    public decimal InNumbers { get; set; }
-    public decimal InProcent { get; set; } 
-}
-
-
-public class PriceDto
-{
-    public decimal OriginalPrice { get; set; } 
-    public decimal? DiscountPrice { get; set; }
-}
-
-public class IncludedDto
-{
-    public int HoursOfVideo { get; set; }
-    public int Articles { get; set; }
-    public int Resourses { get; set; }
-    public bool LifetimeAccess { get; set; } = false;
-    public bool Certificate { get; set; } = false;
-}
-
-public class AuthorDto 
-{  
-    public string FullName { get; set; } = null!;
-    public string Biography { get; set; } = null!;
-    public string? ProfileImageUrl { get; set; }
-    public SocialMediaDto? SocialMedia { get; set; }
-}
-
-public class SocialMediaDto
-{
-    public string? YouTubeUrl { get; set; }
-    public string? Subscribers { get; set; }
-    public string? FacebookUrl { get; set; }
-    public string? Followers { get; set; }
-}
-
-public class HighlightsDto
-{
-    public string Highlight { get; set; } = null!;
-}
-
-public class ProgramDetailsDto
-{
-    public string Title { get; set; } = null!;
-    public string Description { get; set; } = null!;
 }

@@ -2,17 +2,14 @@
 using Infrastructure.Entities.CoursesEntities;
 using Infrastructure.Model;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 using System.Linq.Expressions;
 
 namespace Infrastructure.Repositories.CoursesRepositories
 {
-    public class CourseRepository : BaseRepository<CourseEntity, CosmosDbContext>
+    public class CourseRepository(CosmosDbContext context) : BaseRepository<CourseEntity, CosmosDbContext>(context)
     {
-        private readonly CosmosDbContext _context;
-        public CourseRepository(CosmosDbContext context) : base(context)
-        {
-            _context = context;
-        }
+        private readonly CosmosDbContext _context = context;
 
         public override async Task<bool> ExistsAsync(Expression<Func<CourseEntity, bool>> predicate)
         {
@@ -20,50 +17,39 @@ namespace Infrastructure.Repositories.CoursesRepositories
             {
                 var entityExists = await _context.Courses.Where(predicate).Select(x => x.Id).FirstOrDefaultAsync() != null;
                 return entityExists;
-
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                //logger
+                Debug.WriteLine(ex.Message);
                 return false;
             }
         }
 
-
-
-     
 
         public async Task<CourseQueryResultModel> QueryAsync(string? category, string? searchQuery, int pageNumber = 1, int pageSize = 10)
         {
             try
             {
                 var query = _context.Courses.AsQueryable();
-
                 if (!string.IsNullOrEmpty(category) && category.ToLower() != "all")
                 {
                     query = query.Where(x => x.CourseCategory.ToLower() == category.ToLower());
-
                 }
-                    
-
                 if (!string.IsNullOrEmpty(searchQuery))
                 {
                     query = query.Where(x => x.CourseTitle.ToLower().Contains(searchQuery.ToLower()) || x.Author.FullName.ToLower().Contains(searchQuery.ToLower()));
                 }
-
                 int totalItems = await query.CountAsync();
-
-                var courses = await query.OrderByDescending(x => x.Created)
+                var courses = await query.OrderByDescending(x => x.LastUpdated)
                     .Skip((pageNumber - 1) * pageSize)
                     .Take(pageSize)
                     .ToListAsync();
-
                 return new CourseQueryResultModel { Courses = courses, TotalItems = totalItems };   
                 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                //logger
+                Debug.WriteLine(ex.Message);
                 return new CourseQueryResultModel { Courses = [], TotalItems = 0 };
             }
         }
@@ -78,22 +64,17 @@ namespace Infrastructure.Repositories.CoursesRepositories
                 {
                     return null!;
                 }
-               
                 _context.Entry(existingEntity).CurrentValues.SetValues(updatedEntity);
                 await _context.SaveChangesAsync();
                 return existingEntity;
                 
-
-
-                
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                Debug.WriteLine(ex.Message);
                 return null!;
             }
         }
-
 
 
         public async Task<IEnumerable<string>> GetCategoriesAsync()
@@ -103,12 +84,13 @@ namespace Infrastructure.Repositories.CoursesRepositories
                 var categories = await _context.Courses.Select(x => x.CourseCategory).Distinct().ToListAsync();
                 return categories;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                Debug.WriteLine(ex.Message);
                 return [];
             }
         }
+
 
         public async Task<IEnumerable<CourseEntity>> GetCoursesByIdsAsync(List<string> courseIds)
         {
@@ -117,13 +99,11 @@ namespace Infrastructure.Repositories.CoursesRepositories
                 var courses = await _context.Courses.Where(x => courseIds.Contains(x.Id)).ToListAsync();
                 return courses;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                Debug.WriteLine(ex.Message);
                 return [];
             }
-
         }
-
     }
 }

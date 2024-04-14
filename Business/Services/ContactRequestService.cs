@@ -3,17 +3,13 @@ using Business.Factories;
 using Business.Helper.Responses;
 using Infrastructure.Entities.ContactFormsEntities;
 using Infrastructure.Repositories.ContactRepositories;
+using System.Diagnostics;
 
 namespace Business.Services;
 
-public class ContactRequestService
+public class ContactRequestService(ContactRequestRepository contactRequestRepository)
 {
-    private readonly ContactRequestRepository _contactRequestRepository;
-
-    public ContactRequestService(ContactRequestRepository contactRequestRepository)
-    {
-        _contactRequestRepository = contactRequestRepository;
-    }
+    private readonly ContactRequestRepository _contactRequestRepository = contactRequestRepository;
 
     public async Task<ResponseResult> CreateRequest (CreateContactRequestDto dto)
     {
@@ -21,11 +17,10 @@ public class ContactRequestService
         {
             var result = await _contactRequestRepository.CreateAsync(ContactRequestFactory.CreateFromDto(dto));
             return result != null ? ResponseFactory.Ok() : ResponseFactory.Error();
-
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            //logger
+            Debug.WriteLine(ex.Message);
             return ResponseFactory.ServerError();
         }
     }
@@ -38,12 +33,13 @@ public class ContactRequestService
             var requests = await _contactRequestRepository.GetAllAsync();
             return requests.Any() ? ResponseFactory.Ok(requests.Select(ContactRequestFactory.GetToDto)) : ResponseFactory.NotFound();
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            //logger
+            Debug.WriteLine(ex.Message);
             return ResponseFactory.ServerError();
         }
     }
+
 
     public async Task<ResponseResult> GetAllByEmail(string email)
     {
@@ -51,14 +47,14 @@ public class ContactRequestService
         {
             var requestByEmail = await _contactRequestRepository.GetAllByEmailAsync(email);
             return requestByEmail.Any() ? ResponseFactory.Ok(requestByEmail.Select(ContactRequestFactory.GetToDto)) : ResponseFactory.NotFound();
-
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            //logger
+            Debug.WriteLine(ex.Message);
             return ResponseFactory.ServerError();
         }
     }
+
 
     public async Task<ResponseResult> Update(string id, CreateContactRequestDto dto)
     {
@@ -69,7 +65,6 @@ public class ContactRequestService
             {
                 return ResponseFactory.NotFound();
             }
-
             var updatedEntity = new ContactRequestEntity
             {
                 Id = id,
@@ -80,17 +75,16 @@ public class ContactRequestService
                 Created = entity.Created,
                 Updated = DateTime.Now,
             };
-
             var result = await _contactRequestRepository.UpdateAsync(x => x.Id == id, updatedEntity);
             return result != null ? ResponseFactory.Ok(ContactRequestFactory.GetToDto(result)) : ResponseFactory.Error();
-
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            //logger
+            Debug.WriteLine(ex.Message);
             return ResponseFactory.ServerError();
         }
     }
+
 
     public async Task<ResponseResult> Delete(string id)
     {
@@ -98,14 +92,11 @@ public class ContactRequestService
         {
             var result = await _contactRequestRepository.DeleteAsync(x => x.Id == id);
             return result ? ResponseFactory.Ok() : ResponseFactory.NotFound();
-
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            //logger
+            Debug.WriteLine(ex.Message);
             return ResponseFactory.ServerError();
         }
     }
-
-   
 }

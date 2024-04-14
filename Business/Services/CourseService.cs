@@ -1,26 +1,18 @@
 ﻿using AutoMapper;
-using Azure;
 using Business.Dtos.Courses;
 using Business.Dtos.CoursesDtos;
 using Business.Factories;
 using Business.Helper.Responses;
 using Infrastructure.Repositories.CoursesRepositories;
-using Microsoft.EntityFrameworkCore;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using System.Diagnostics;
+
 
 namespace Business.Services
 {
-    public class CourseService
+    public class CourseService(CourseRepository courseRepository, IMapper mapper)
     {
-        private readonly CourseRepository _courseRepository;
-        private readonly IMapper _mapper;
-
-        public CourseService(CourseRepository courseRepository, IMapper mapper)
-        {
-            _courseRepository = courseRepository;
-            _mapper = mapper;
-        }
-
+        private readonly CourseRepository _courseRepository = courseRepository;
+        private readonly IMapper _mapper = mapper;
 
         public async Task<ResponseResult> CreateAsync(CreateCourseDto dto)
         {
@@ -33,10 +25,10 @@ namespace Business.Services
                 var result = await _courseRepository.CreateAsync(CourseFactory.CreateFromDto(dto));
                 return result != null ? ResponseFactory.Ok() : ResponseFactory.Error();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                //logger
-                return ResponseFactory.Error();
+                Debug.WriteLine(ex.Message);
+                return ResponseFactory.ServerError();
             }
         }
 
@@ -45,7 +37,6 @@ namespace Business.Services
             try
             {
                 var result = await _courseRepository.QueryAsync(category, searchQuery, pageNumber, pageSize);
-
                 if (result.Courses.Any())
                 {
                     var response = new CourseResultDto
@@ -55,24 +46,18 @@ namespace Business.Services
                         Courses = _mapper.Map<IEnumerable<GetCourseDto>>(result.Courses),
                     };
                     response.TotalPages = (int)Math.Ceiling(response.TotalItems / (double)pageSize);
-                    
-
-
                     return ResponseFactory.Ok(response);
                 }
                 return ResponseFactory.NotFound();
-
-                //return courses.Any() ? ResponseFactory.Ok() : ResponseFactory.NotFound();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                //logger
-                return ResponseFactory.Error();
+                Debug.WriteLine(ex.Message);
+                return ResponseFactory.ServerError();
             }
         }
 
      
-
         public async Task<ResponseResult> GetOneAsync(string id)
         {
             try
@@ -80,39 +65,33 @@ namespace Business.Services
                 var course = await _courseRepository.GetOneAsync(x => x.Id == id);
                 return course != null ? ResponseFactory.Ok(_mapper.Map<GetCourseDto>(course)) : ResponseFactory.NotFound();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                //logger
-                return ResponseFactory.Error();
+                Debug.WriteLine(ex.Message);
+                return ResponseFactory.ServerError();
             }
         }
+
 
         public async Task<ResponseResult> UpdateAsync(string id, CreateCourseDto dto)
         {
             try
             {
-
                 var existingEntity = await _courseRepository.GetOneAsync(x => x.Id == id);
                 if (existingEntity == null)
                 {
                     return ResponseFactory.NotFound();
                 }
                 _mapper.Map(dto, existingEntity);
-
-                //var result = await _courseRepository.TestUpdate(existingEntity);
-
-
                 var result = await _courseRepository.UpdateAsync(x => x.Id == id, existingEntity);
                 return result != null ? ResponseFactory.Ok(CourseFactory.ToDto(result)) : ResponseFactory.NotFound();
-                
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                //logger
-                return ResponseFactory.Error();
+                Debug.WriteLine(ex.Message);
+                return ResponseFactory.ServerError();
             }
         }
-
 
 
         public async Task<ResponseResult> DeleteAsync(string id)
@@ -123,17 +102,15 @@ namespace Business.Services
                 {
                     return ResponseFactory.NotFound();
                 }
-
                 var result = await _courseRepository.DeleteAsync(x => x.Id == id);
                 return result ? ResponseFactory.Ok() : ResponseFactory.Error();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                //logger
-                return ResponseFactory.Error();
+                Debug.WriteLine(ex.Message);
+                return ResponseFactory.ServerError();
             }
         }
-
 
 
         public async Task<ResponseResult> GetCategoriesAsync()
@@ -142,12 +119,11 @@ namespace Business.Services
             {
                 var result = await _courseRepository.GetCategoriesAsync();
                 return result != null ? ResponseFactory.Ok(result) : ResponseFactory.NotFound();
-
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                return ResponseFactory.Error();
+                Debug.WriteLine(ex.Message);
+                return ResponseFactory.ServerError();
             }
         }
 
@@ -158,14 +134,12 @@ namespace Business.Services
             {
                 var result = await _courseRepository.GetCoursesByIdsAsync(courseIds);
                 return result.Any() ? ResponseFactory.Ok(result) : ResponseFactory.NotFound();
-
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                //logger
-                return ResponseFactory.Error();
+                Debug.WriteLine(ex.Message);
+                return ResponseFactory.ServerError();
             }
         }
-
     }
 }

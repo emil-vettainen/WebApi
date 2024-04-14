@@ -1,16 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 using System.Linq.Expressions;
 
 namespace Infrastructure.Repositories;
 
-public abstract class BaseRepository<TEntity, TContext> where TEntity : class where TContext : DbContext
+public abstract class BaseRepository<TEntity, TContext>(TContext context) where TEntity : class where TContext : DbContext
 {
-    private readonly TContext _context;
-
-    protected BaseRepository(TContext context)
-    {
-        _context = context;
-    }
+    private readonly TContext _context = context;
 
     public virtual async Task<bool> ExistsAsync(Expression<Func<TEntity, bool>> predicate)
     {
@@ -19,7 +15,7 @@ public abstract class BaseRepository<TEntity, TContext> where TEntity : class wh
             var entityExists = await _context.Set<TEntity>().AnyAsync(predicate);
             return entityExists;
         }
-        catch (Exception) { }
+        catch (Exception ex) { Debug.WriteLine(ex.Message); }
         return false;
     }
 
@@ -31,7 +27,7 @@ public abstract class BaseRepository<TEntity, TContext> where TEntity : class wh
             await _context.SaveChangesAsync();
             return entity;
         }
-        catch (Exception) { }
+        catch (Exception ex) { Debug.WriteLine(ex.Message); }
         return null!;
     }
 
@@ -42,11 +38,11 @@ public abstract class BaseRepository<TEntity, TContext> where TEntity : class wh
             var entities = await _context.Set<TEntity>().ToListAsync();
             return entities;
         }
-        catch (Exception)
+        catch (Exception ex)
         {
+            Debug.WriteLine(ex.Message);
             return Enumerable.Empty<TEntity>();
         }
-
     }
 
     public virtual async Task<TEntity> GetOneAsync(Expression<Func<TEntity, bool>> predicate)
@@ -59,7 +55,7 @@ public abstract class BaseRepository<TEntity, TContext> where TEntity : class wh
                 return entity;
             }
         }
-        catch (Exception) { }
+        catch (Exception ex) { Debug.WriteLine(ex.Message); }
         return null!;
     }
 
@@ -75,7 +71,7 @@ public abstract class BaseRepository<TEntity, TContext> where TEntity : class wh
                 return entity;
             }
         }
-        catch (Exception) { }
+        catch (Exception ex) { Debug.WriteLine(ex.Message); }
         return null!;
     }
 
@@ -91,7 +87,7 @@ public abstract class BaseRepository<TEntity, TContext> where TEntity : class wh
                 return true;
             }
         }
-        catch (Exception) { }
+        catch (Exception ex) { Debug.WriteLine(ex.Message); }
         return false;
     }
 }

@@ -31,7 +31,8 @@ public class CoursesController(CourseService courseService) : ControllerBase
             {
                 ResultStatus.OK => Created("", null),
                 ResultStatus.EXISTS => Conflict(),
-                _ => BadRequest()
+                ResultStatus.ERROR => BadRequest(),
+                _ => StatusCode(500)
             };
         }
         catch (Exception ex)
@@ -55,7 +56,7 @@ public class CoursesController(CourseService courseService) : ControllerBase
             {
                 ResultStatus.OK => Ok(result.ContentResult),
                 ResultStatus.NOT_FOUND => NotFound(),
-                _ => BadRequest(),
+                _ => StatusCode(500),
             };
         }
         catch (Exception ex)
@@ -79,7 +80,7 @@ public class CoursesController(CourseService courseService) : ControllerBase
             {
                 ResultStatus.OK => Ok(result.ContentResult),
                 ResultStatus.NOT_FOUND => NotFound(),
-                _ => BadRequest(),
+                _ => StatusCode(500),
             };
         }
         catch (Exception ex)
@@ -103,7 +104,7 @@ public class CoursesController(CourseService courseService) : ControllerBase
             {
                 ResultStatus.OK => Ok(result.ContentResult),
                 ResultStatus.NOT_FOUND => NotFound(),
-                _ => BadRequest(),
+                _ => StatusCode(500),
             };
         }
         catch (Exception ex)
@@ -135,6 +136,7 @@ public class CoursesController(CourseService courseService) : ControllerBase
         catch (Exception ex)
         {
             Debug.WriteLine(ex.Message);
+            return StatusCode(500);
         }
         return BadRequest();
     }
@@ -152,7 +154,8 @@ public class CoursesController(CourseService courseService) : ControllerBase
             {
                 ResultStatus.OK => Ok(),
                 ResultStatus.NOT_FOUND => NotFound(),
-                _ => BadRequest(),
+                ResultStatus.ERROR => BadRequest(),
+                _ => StatusCode(500),
             };
         }
         catch (Exception ex)

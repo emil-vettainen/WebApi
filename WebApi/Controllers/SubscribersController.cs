@@ -16,7 +16,7 @@ public class SubscribersController(SubscribeService subscribeService) : Controll
 
     #region Subscribe
     [HttpPost]
-    public async Task<IActionResult> Subscribe (CreateSubscribeDto dto)
+    public async Task<IActionResult> Subscribe ([FromBody]CreateSubscribeDto dto)
     {
         try
         {
